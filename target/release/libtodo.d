@@ -1,1 +1,1 @@
-/home/ghaith/main/dev/todo/target/release/libtodo.rlib: /home/ghaith/main/dev/todo/src/command.rs /home/ghaith/main/dev/todo/src/lib.rs
+/home/ghaith/main/dev/todo/target/release/libtodo.rlib: /home/ghaith/main/dev/todo/src/app_state.rs /home/ghaith/main/dev/todo/src/command.rs /home/ghaith/main/dev/todo/src/hierarchy.rs /home/ghaith/main/dev/todo/src/lib.rs

@@ -1,16 +1,26 @@
 #![allow(dead_code)]
 #![allow(unused_variables)]
 #![allow(unused_mut)]
-use std::env;
-use todo::command::Command;
+use std::{env, process::exit};
+use todo::{app_state::AppState, command::Command};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let args_refs: Vec<&str> = args.iter().map(|arg| arg.as_str()).collect();
 
-    let command: Command = Command::new(args_refs);
-    let tasks: Vec<&str> = command.get_tasks();
-    for task in tasks {
-        println!("{}\n", task);
+    let command: Command = Command::new(args);
+    let mut app_state = AppState::load();
+    println!("{:#?}", app_state);
+    match command.op() {
+        "add" => {
+            if let Err(e) = app_state.handle_add(&command) {
+                eprintln!("error: {e}");
+                exit(1);
+            }
+        }
+        _ => {
+            println!("jack shi");
+            exit(1);
+        }
     }
+    println!("{:#?}", app_state);
 }

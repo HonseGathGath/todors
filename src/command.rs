@@ -2,74 +2,97 @@
 #![allow(unused_variables)]
 #![allow(unused_mut)]
 
+use crate::hierarchy::Priority;
+
 #[derive(Debug)]
-enum FLAG {
-    PROJECT,
-    SHOW,
-    OTHER,
+enum Flag {
+    Project,
+    Description,
+    Priority,
+    Other,
 }
 
-impl FLAG {
-    fn map_to_FLAG(flag: &str) -> Self {
+impl Flag {
+    fn classify_flag(flag: &str) -> Self {
         match flag {
-            "p" => FLAG::PROJECT,
-            "s" => FLAG::SHOW,
-            _ => FLAG::OTHER,
-        }
-    }
-    fn map_to_str<'a>(&self) -> &'a str {
-        match self {
-            FLAG::PROJECT => "p",
-            FLAG::SHOW => "s",
-            FLAG::OTHER => "_",
+            "-p" | "--project" => Flag::Project,
+            "-d" | "--description" => Flag::Description,
+            "--priority" => Flag::Priority,
+            _ => Flag::Other,
         }
     }
 }
 
 #[derive(Debug)]
-struct Parameters<'a> {
-    tasks: Vec<&'a str>,
-    project: &'a str,
+pub struct Parameters {
+    tasks: Vec<String>,
+    project: Option<String>,
+    description: Option<String>,
+    priority: Option<Priority>,
 }
 #[derive(Debug)]
-pub struct Command<'a> {
-    op: &'a str,
-    flags: Vec<FLAG>,
-    paramters: Parameters<'a>,
+pub struct Command {
+    op: String,
+    parameters: Parameters,
 }
-impl<'a> Parameters<'a> {
+impl Parameters {
+    pub fn tasks(&self) -> &Vec<String> {
+        &self.tasks
+    }
+
+    pub fn fields(&self) -> (&Option<String>, &Option<String>, &Option<Priority>) {
+        (&self.project, &self.description, &self.priority)
+    }
+
     fn new() -> Self {
         Parameters {
             tasks: Vec::new(),
-            project: "",
+            project: None,
+            description: None,
+            priority: None,
         }
     }
 }
 
-impl<'a> Command<'a> {
-    pub fn new(args: Vec<&'a str>) -> Self {
-        let op: &str = &args[1];
-        let mut flags: Vec<FLAG> = Vec::new();
+impl Command {
+    pub fn op(&self) -> &str {
+        &self.op
+    }
+    pub fn parameters(&self) -> &Parameters {
+        &self.parameters
+    }
+    pub fn new(args: Vec<String>) -> Self {
+        let op: String = args[1].clone();
         let mut parameters: Parameters = Parameters::new();
-        for (index, arg) in args[2..].iter().enumerate() {
-            if arg.starts_with("-") {
-                let flag: FLAG = FLAG::map_to_FLAG(&arg[1..]);
-                flags.push(flag);
-                if &arg[1..] == "p" {
-                    parameters.project = args[2..][index + 1];
+        let mut it = args.into_iter().skip(2).peekable();
+
+        while let Some(arg) = it.next() {
+            match Flag::classify_flag(&arg) {
+                Flag::Project => {
+                    if let Some(value) = it.next() {
+                        parameters.project = Some(value);
+                    }
                 }
-                continue;
-            } else if arg != &parameters.project {
-                parameters.tasks.push(arg);
+                Flag::Priority => {
+                    if let Some(value) = it.next() {
+                        parameters.priority = Some(Priority::translate_priority(&value));
+                    }
+                }
+                Flag::Description => {
+                    if let Some(value) = it.next() {
+                        parameters.description = Some(value);
+                    }
+                }
+                Flag::Other => {
+                    parameters.tasks.push(arg);
+                }
             }
         }
-        Command {
-            op,
-            flags: flags,
-            paramters: parameters,
-        }
+
+        Command { op, parameters }
     }
-    pub fn get_tasks(&'a self) -> Vec<&'a str> {
-        self.paramters.tasks.clone()
+
+    pub fn get_tasks(&self) -> Vec<String> {
+        self.parameters.tasks.clone()
     }
 }
