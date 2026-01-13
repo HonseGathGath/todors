@@ -69,7 +69,7 @@ impl AppState {
             return Ok(Some(id));
         }
 
-        if prompt(&format!("Project '{name} does not exist. Create it?'"))? {
+        if prompt(&format!("Project '{name}' does not exist. Create it?'"))? {
             let id = self.create_project(name.to_string());
             Ok(Some(id))
         } else {
