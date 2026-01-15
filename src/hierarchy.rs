@@ -1,3 +1,5 @@
+use std::usize;
+
 use chrono::{DateTime, NaiveDate, Utc};
 
 use crate::command::Command;
@@ -70,5 +72,17 @@ impl Priority {
 impl Default for Priority {
     fn default() -> Self {
         Priority::None
+    }
+}
+
+impl Task {
+    pub fn id(&self) -> usize {
+        self.id
+    }
+    pub fn project_id(&self) -> usize {
+        self.project_id
+    }
+    pub fn name(&self) -> &String {
+        &self.name
     }
 }

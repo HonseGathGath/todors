@@ -1,7 +1,7 @@
 use std::io;
 
 use crate::{
-    command::Command,
+    command::{self, Command},
     hierarchy::{Project, Task, task_from_command},
 };
 use std::io::Write;
@@ -101,5 +101,50 @@ impl AppState {
 
         project.unwrap().tasks.push(task);
         Ok(())
+    }
+    fn children_of(&self, parent_id: usize) -> impl Iterator<Item = &Project> {
+        self.projects
+            .iter()
+            .filter(move |p| p.parent_id == parent_id && p.id != parent_id)
+    }
+
+    fn print_subtree(&self, project_id: usize, depth: usize) {
+        if let Some(p) = self.projects.iter().find(|p| p.id == project_id) {
+            println!("{:indent$}{}", "", p.name, indent = depth * 2);
+
+            for task in &p.tasks {
+                println!(
+                    "{:indent$}- [{}]",
+                    "",
+                    task.name(),
+                    indent = (depth + 1) * 2
+                );
+            }
+            for child in self.children_of(p.id) {
+                self.print_subtree(child.id, depth + 1);
+            }
+        }
+    }
+
+    pub fn handle_list(&self, project_id: usize) {
+        self.print_subtree(project_id, 0);
+    }
+    pub fn handle_remove_task(&mut self, id: usize, project_id: usize) {
+        self.projects.iter_mut().for_each(|p| {
+            if p.id == project_id {
+                p.tasks.retain(|t| id != t.id());
+            }
+        });
+    }
+    pub fn handle_modify_task(&mut self, id: usize, command: &Command) {
+        'outer: for project in self.projects.iter_mut() {
+            for task in project.tasks.iter_mut() {
+                if task.id() == id {
+                    let new_task = task_from_command(command, id, task.project_id());
+                    *task = new_task.ok().unwrap();
+                    break 'outer;
+                }
+            }
+        }
     }
 }
