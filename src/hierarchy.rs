@@ -60,10 +60,10 @@ pub enum Priority {
 
 impl Priority {
     pub fn translate_priority(priority: &str) -> Self {
-        match priority {
+        match priority.to_lowercase().as_str() {
             "low" | "l" => Priority::Low,
-            "Medium" | "m" => Priority::Medium,
-            "High" | "H" => Priority::High,
+            "medium" | "m" => Priority::Medium,
+            "high" | "h" => Priority::High,
             _ => Priority::None,
         }
     }

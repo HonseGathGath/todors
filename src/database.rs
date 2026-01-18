@@ -100,30 +100,6 @@ impl Database {
         Ok(())
     }
 
-    pub fn save_task(&self, task: &Task) -> SqlResult<()> {
-        let priority = task.priority() as i32;
-        let created_at = task.created_at().to_rfc3339();
-        let due_time = task.due_time().map(|d| d.to_string());
-        let completed_at = task.completed_at().map(|d| d.to_rfc3339());
-
-        self.conn.execute(
-            "INSERT INTO tasks (id, project_id, name, description, priority, created_at, due_time, completed_at) 
-             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
-            rusqlite::params![
-                task.id(),
-                task.project_id(),
-                task.name(),
-                task.description(),
-                priority,
-                created_at,
-                due_time,
-                completed_at,
-            ],
-        )?;
-
-        Ok(())
-    }
-
     pub fn load_projects(&self) -> SqlResult<Vec<Project>> {
         let mut stmt = self
             .conn

@@ -102,7 +102,7 @@ impl AppState {
         }
     }
     fn create_project(&mut self, name: String) -> usize {
-        let id = self.projects.len();
+        let id = self.projects.iter().map(|p| p.id).max().unwrap_or(0) + 1;
         let project = Project {
             name: name,
             id: id,
