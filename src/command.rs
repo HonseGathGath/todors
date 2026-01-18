@@ -107,12 +107,10 @@ impl Command {
                     if let Ok(id) = arg.parse::<usize>() {
                         if parameters.task_id.is_none() {
                             parameters.task_id = Some(id);
-                        } else {
-                            parameters.tasks.push(arg);
+                            continue;
                         }
-                    } else {
-                        parameters.tasks.push(arg);
                     }
+                    parameters.tasks.push(arg);
                 }
             }
         }

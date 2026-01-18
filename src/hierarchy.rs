@@ -19,8 +19,8 @@ pub fn task_from_command(
     let (_, description, priority) = command.parameters().fields();
 
     Ok(Task {
-        id: id,
-        project_id: project_id,
+        id,
+        project_id,
         name: name?,
         description: description.clone().unwrap_or_default(),
         priority: priority.clone().unwrap_or_default(),

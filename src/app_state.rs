@@ -104,8 +104,8 @@ impl AppState {
     fn create_project(&mut self, name: String) -> usize {
         let id = self.projects.iter().map(|p| p.id).max().unwrap_or(0) + 1;
         let project = Project {
-            name: name,
-            id: id,
+            name,
+            id,
             parent_id: 0,
             tasks: Vec::new(),
         };
