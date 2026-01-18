@@ -158,11 +158,12 @@ impl AppState {
     
     pub fn handle_remove(&mut self, cmd: &Command) -> Result<(), &'static str> {
         if let Some(task_id) = cmd.parameters().task_id() {
-            // Remove task by ID
+            // Remove task by ID in a single pass
             let mut found = false;
             for project in self.projects.iter_mut() {
-                if project.tasks.iter().any(|t| t.id() == task_id) {
-                    project.tasks.retain(|t| t.id() != task_id);
+                let initial_len = project.tasks.len();
+                project.tasks.retain(|t| t.id() != task_id);
+                if project.tasks.len() < initial_len {
                     found = true;
                     break;
                 }
@@ -289,18 +290,7 @@ impl AppState {
         for project in self.projects.iter_mut() {
             for task in project.tasks.iter_mut() {
                 if task.id() == task_id {
-                    // We need to reconstruct the task with completed_at set
-                    let completed_task = Task::new(
-                        task.id(),
-                        task.project_id(),
-                        task.name().clone(),
-                        task.description().clone(),
-                        task.priority(),
-                        task.created_at().clone(),
-                        task.due_time(),
-                        Some(chrono::Utc::now()),
-                    );
-                    *task = completed_task;
+                    task.mark_complete();
                     found = true;
                     println!("Task {} marked as complete", task_id);
                     break;

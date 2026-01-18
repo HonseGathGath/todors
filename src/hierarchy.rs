@@ -122,4 +122,8 @@ impl Task {
     pub fn completed_at(&self) -> Option<DateTime<Utc>> {
         self.completed_at
     }
+
+    pub fn mark_complete(&mut self) {
+        self.completed_at = Some(chrono::Utc::now());
+    }
 }
