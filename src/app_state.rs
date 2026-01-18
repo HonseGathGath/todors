@@ -28,7 +28,7 @@ pub struct AppState {
 impl AppState {
     pub fn load() -> Self {
         let db = Database::new().expect("Failed to initialize database");
-        
+
         let mut projects = db.load_projects().unwrap_or_else(|_| Vec::new());
 
         let next_task_id = db.load_next_task_id().unwrap_or(0);
@@ -140,8 +140,9 @@ impl AppState {
 
             for task in &p.tasks {
                 println!(
-                    "{:indent$}- [{}]",
+                    "{:indent$}- [{}: {}]",
                     "",
+                    task.id(),
                     task.name(),
                     indent = (depth + 1) * 2
                 );
@@ -155,7 +156,7 @@ impl AppState {
     pub fn handle_list(&self, project_id: usize) {
         self.print_subtree(project_id, 0);
     }
-    
+
     pub fn handle_remove(&mut self, cmd: &Command) -> Result<(), &'static str> {
         if let Some(task_id) = cmd.parameters().task_id() {
             // Remove task by ID in a single pass
@@ -180,7 +181,7 @@ impl AppState {
 
     pub fn handle_modify(&mut self, cmd: &Command) -> Result<(), &'static str> {
         let task_id = cmd.parameters().task_id().ok_or("task ID required")?;
-        
+
         let mut found = false;
         'outer: for project in self.projects.iter_mut() {
             for task in project.tasks.iter_mut() {
@@ -193,18 +194,18 @@ impl AppState {
                 }
             }
         }
-        
+
         if !found {
             return Err("task not found");
         }
-        
+
         self.save();
         Ok(())
     }
 
     pub fn handle_create_project(&mut self, cmd: &Command) -> Result<(), &'static str> {
         let (project_name, _, _) = cmd.parameters().fields();
-        
+
         if let Some(name) = project_name {
             if self.find_project_id(name).is_some() {
                 return Err("project already exists");
@@ -228,7 +229,7 @@ impl AppState {
     pub fn handle_remove_project(&mut self, cmd: &Command) -> Result<(), &'static str> {
         let (project_name, _, _) = cmd.parameters().fields();
         let force = cmd.parameters().force();
-        
+
         let name = if let Some(n) = project_name {
             n.clone()
         } else if !cmd.parameters().tasks().is_empty() {
@@ -236,21 +237,21 @@ impl AppState {
         } else {
             return Err("project name required");
         };
-        
+
         let project_id = self.find_project_id(&name).ok_or("project not found")?;
-        
+
         // Don't allow removing Home project
         if project_id == 0 {
             return Err("cannot remove Home project");
         }
-        
+
         // Check if project has tasks
         if let Some(project) = self.projects.iter().find(|p| p.id == project_id) {
             if !project.tasks.is_empty() && !force {
                 return Err("project has tasks, use --force to remove anyway");
             }
         }
-        
+
         self.projects.retain(|p| p.id != project_id);
         self.save();
         println!("Project '{}' removed", name);
@@ -259,7 +260,7 @@ impl AppState {
 
     pub fn handle_show(&self, cmd: &Command) -> Result<(), &'static str> {
         let task_id = cmd.parameters().task_id().ok_or("task ID required")?;
-        
+
         for project in &self.projects {
             for task in &project.tasks {
                 if task.id() == task_id {
@@ -279,13 +280,13 @@ impl AppState {
                 }
             }
         }
-        
+
         Err("task not found")
     }
 
     pub fn handle_complete(&mut self, cmd: &Command) -> Result<(), &'static str> {
         let task_id = cmd.parameters().task_id().ok_or("task ID required")?;
-        
+
         let mut found = false;
         for project in self.projects.iter_mut() {
             for task in project.tasks.iter_mut() {
@@ -300,11 +301,11 @@ impl AppState {
                 break;
             }
         }
-        
+
         if !found {
             return Err("task not found");
         }
-        
+
         self.save();
         Ok(())
     }

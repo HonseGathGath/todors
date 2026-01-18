@@ -1,0 +1,118 @@
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.003  000.003: --- VIM STARTING ---
+000.049  000.046: locale set
+000.054  000.005: window checked
+000.257  000.203: inits 1
+000.273  000.016: parsing arguments
+000.274  000.001: expanding arguments
+000.283  000.009: shell init
+000.456  000.173: Termcap init
+000.460  000.004: inits 2
+000.508  000.048: init highlight
+000.659  000.100  000.100: sourcing /usr/share/vim/vim91/debian.vim
+000.682  000.163  000.063: sourcing /etc/vim/vimrc
+001.782  001.080  001.080: sourcing /home/ghaith/.vim/autoload/plug.vim
+010.076  000.008  000.008: sourcing /home/ghaith/.vim/plugged/vim-fugitive/ftdetect/fugitive.vim
+010.141  000.007  000.007: sourcing /home/ghaith/.vim/plugged/neosnippet.vim/ftdetect/neosnippet.vim
+010.251  006.543  006.528: sourcing /usr/share/vim/vim91/filetype.vim
+010.356  000.033  000.033: sourcing /usr/share/vim/vim91/ftplugin.vim
+010.440  000.017  000.017: sourcing /usr/share/vim/vim91/indent.vim
+015.760  000.816  000.816: sourcing /usr/share/vim/vim91/colors/lists/default.vim
+015.869  005.067  004.251: sourcing /usr/share/vim/vim91/syntax/syncolor.vim
+015.935  005.239  000.172: sourcing /usr/share/vim/vim91/syntax/synload.vim
+016.122  005.654  000.415: sourcing /usr/share/vim/vim91/syntax/syntax.vim
+016.489  000.078  000.078: sourcing /usr/share/vim/vim91/colors/lists/default.vim
+016.850  000.155  000.155: sourcing /usr/share/vim/vim91/syntax/syncolor.vim
+017.443  000.876  000.721: sourcing /usr/share/vim/vim91/colors/retrobox.vim
+017.504  016.814  002.533: sourcing $HOME/.vimrc
+017.509  000.024: sourcing vimrc file(s)
+019.215  001.542  001.542: sourcing /home/ghaith/.vim/plugged/vim-fugitive/plugin/fugitive.vim
+020.038  000.606  000.606: sourcing /home/ghaith/.vim/plugged/vim-sneak/plugin/sneak.vim
+020.231  000.140  000.140: sourcing /home/ghaith/.vim/plugged/vim-startuptime/plugin/startuptime.vim
+020.500  000.125  000.125: sourcing /home/ghaith/.vim/plugged/nerdtree/autoload/nerdtree.vim
+020.904  000.256  000.256: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/path.vim
+020.995  000.067  000.067: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/menu_controller.vim
+021.058  000.040  000.040: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/menu_item.vim
+021.151  000.072  000.072: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/key_map.vim
+021.289  000.115  000.115: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/bookmark.vim
+021.423  000.109  000.109: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/tree_file_node.vim
+021.662  000.217  000.217: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/tree_dir_node.vim
+021.777  000.094  000.094: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/opener.vim
+021.932  000.133  000.133: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/creator.vim
+021.978  000.021  000.021: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/flag_set.vim
+022.123  000.110  000.110: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/nerdtree.vim
+022.360  000.196  000.196: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/ui.vim
+022.397  000.011  000.011: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/event.vim
+022.442  000.020  000.020: sourcing /home/ghaith/.vim/plugged/nerdtree/lib/nerdtree/notifier.vim
+022.761  000.282  000.282: sourcing /home/ghaith/.vim/plugged/nerdtree/autoload/nerdtree/ui_glue.vim
+024.401  000.059  000.059: sourcing /home/ghaith/.vim/plugged/nerdtree/nerdtree_plugin/exec_menuitem.vim
+025.042  000.541  000.541: sourcing /home/ghaith/.vim/plugged/nerdtree/nerdtree_plugin/fs_menu.vim
+025.082  000.028  000.028: sourcing /home/ghaith/.vim/plugged/nerdtree/nerdtree_plugin/vcs.vim
+025.227  000.057  000.057: sourcing /home/ghaith/.vim/plugged/nerdtree-git-plugin/autoload/gitstatus.vim
+025.521  000.038  000.038: sourcing /home/ghaith/.vim/plugged/nerdtree-git-plugin/autoload/gitstatus/log.vim
+026.208  000.045  000.045: sourcing /home/ghaith/.vim/plugged/nerdtree-git-plugin/autoload/gitstatus/listener.vim
+026.300  001.176  001.036: sourcing /home/ghaith/.vim/plugged/nerdtree-git-plugin/nerdtree_plugin/git_status.vim
+026.570  000.206  000.206: sourcing /home/ghaith/.vim/plugged/vim-devicons/nerdtree_plugin/webdevicons.vim
+026.694  006.418  002.540: sourcing /home/ghaith/.vim/plugged/nerdtree/plugin/NERD_tree.vim
+028.585  001.856  001.856: sourcing /home/ghaith/.vim/plugged/vim-devicons/plugin/webdevicons.vim
+028.985  000.320  000.320: sourcing /home/ghaith/.vim/plugged/undotree/plugin/undotree.vim
+029.097  000.077  000.077: sourcing /home/ghaith/.vim/plugged/vim-startify/plugin/startify.vim
+029.248  000.125  000.125: sourcing /home/ghaith/.vim/plugged/neosnippet.vim/plugin/neosnippet.vim
+029.945  000.518  000.518: sourcing /home/ghaith/.vim/plugged/vimwiki/autoload/vimwiki/vars.vim
+030.946  000.164  000.164: sourcing /home/ghaith/.vim/plugged/vimwiki/autoload/vimwiki/u.vim
+034.371  000.038  000.038: sourcing /home/ghaith/.vim/plugged/vimwiki/autoload/vimwiki/markdown_base.vim
+034.521  001.463  001.425: sourcing /home/ghaith/.vim/plugged/vimwiki/autoload/vimwiki/base.vim
+034.685  000.114  000.114: sourcing /home/ghaith/.vim/plugged/vimwiki/autoload/vimwiki/path.vim
+037.907  008.624  006.365: sourcing /home/ghaith/.vim/plugged/vimwiki/plugin/vimwiki.vim
+038.106  000.102  000.102: sourcing /home/ghaith/.vim/plugged/vim-commentary/plugin/commentary.vim
+038.375  000.239  000.239: sourcing /home/ghaith/.vim/plugged/auto-pairs/plugin/auto-pairs.vim
+039.365  000.938  000.938: sourcing /home/ghaith/.vim/plugged/fzf/plugin/fzf.vim
+041.622  001.986  001.986: sourcing /home/ghaith/.vim/plugged/fzf.vim/plugin/fzf.vim
+041.945  000.268  000.268: sourcing /home/ghaith/.vim/plugged/vim-surround/plugin/surround.vim
+042.201  000.086  000.086: sourcing /home/ghaith/.vim/plugged/coc.nvim/autoload/coc/rpc.vim
+042.534  000.226  000.226: sourcing /home/ghaith/.vim/plugged/coc.nvim/autoload/coc/util.vim
+042.887  000.131  000.131: sourcing /home/ghaith/.vim/plugged/coc.nvim/autoload/coc/client.vim
+047.609  002.425  002.425: sourcing /home/ghaith/.vim/plugged/coc.nvim/autoload/coc/api.vim
+049.000  007.003  004.135: sourcing /home/ghaith/.vim/plugged/coc.nvim/plugin/coc.vim
+049.244  000.048  000.048: sourcing /usr/share/vim/vim91/plugin/getscriptPlugin.vim
+049.483  000.231  000.231: sourcing /usr/share/vim/vim91/plugin/gzip.vim
+049.627  000.132  000.132: sourcing /usr/share/vim/vim91/plugin/logiPat.vim
+049.659  000.023  000.023: sourcing /usr/share/vim/vim91/plugin/manpager.vim
+049.806  000.141  000.141: sourcing /usr/share/vim/vim91/plugin/matchparen.vim
+050.317  000.329  000.329: sourcing /usr/share/vim/vim91/pack/dist/opt/netrw/plugin/netrwPlugin.vim
+050.344  000.528  000.199: sourcing /usr/share/vim/vim91/plugin/netrwPlugin.vim
+050.505  000.147  000.147: sourcing /usr/share/vim/vim91/plugin/openPlugin.vim
+050.522  000.007  000.007: sourcing /usr/share/vim/vim91/plugin/rrhelper.vim
+050.546  000.012  000.012: sourcing /usr/share/vim/vim91/plugin/spellfile.vim
+050.684  000.130  000.130: sourcing /usr/share/vim/vim91/plugin/tarPlugin.vim
+050.770  000.074  000.074: sourcing /usr/share/vim/vim91/plugin/tohtml.vim
+050.787  000.009  000.009: sourcing /usr/share/vim/vim91/plugin/tutor.vim
+050.909  000.113  000.113: sourcing /usr/share/vim/vim91/plugin/vimballPlugin.vim
+051.050  000.124  000.124: sourcing /usr/share/vim/vim91/plugin/zipPlugin.vim
+051.053  001.581: loading plugins
+051.123  000.070: loading packages
+051.152  000.029: loading after plugins
+051.159  000.007: inits 3
+051.356  000.197: reading viminfo
+051.365  000.009: setting raw mode
+051.384  000.019: start termcap
+051.407  000.023: clearing screen
+051.683  000.086  000.086: sourcing /home/ghaith/.vim/plugged/coc.nvim/autoload/coc/window.vim
+051.725  000.232: opening buffers
+052.502  000.777: BufEnter autocommands
+052.504  000.002: editing files in windows
+053.561  000.434  000.434: sourcing /home/ghaith/.vim/plugged/vim-startify/autoload/startify.vim
+054.126  000.391  000.391: sourcing /home/ghaith/.vim/plugged/vim-startify/autoload/startify/fortune.vim
+063.143  000.126  000.126: sourcing /home/ghaith/.vim/plugged/vim-startify/syntax/startify.vim
+063.712  000.064  000.064: sourcing /home/ghaith/.vim/plugged/coc.nvim/autoload/coc/compat.vim
+064.296  000.063  000.063: sourcing /home/ghaith/.vim/plugged/coc.nvim/autoload/coc/hlgroup.vim
+064.859  000.444  000.444: sourcing /home/ghaith/.vim/plugged/coc.nvim/autoload/coc/color.vim
+069.945  015.919: VimEnter autocommands
+069.948  000.003: before starting main loop
+070.853  000.905: first screen update
+070.854  000.001: --- VIM STARTED ---

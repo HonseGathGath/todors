@@ -1,0 +1,313 @@
+"install coc.vim for lsp integration
+call plug#begin('~/.vim/plugged')
+" Git integration (like :Gstatus, :Gdiff, etc.)
+Plug 'tpope/vim-fugitive'
+" CamelCase
+Plug 'tpope/vim-abolish'        " Smart case changes: crs (camelCase), cr- (dash-case)
+
+" Better wildmenu (tab completion)
+Plug 'vim-scripts/CmdlineComplete'
+
+" Smart search highlight clearing
+Plug 'romainl/vim-cool'
+
+Plug 'tpope/vim-rhubarb'       " :GBrowse to open GitHub
+
+"makes vim repeat . work
+Plug 'tpope/vim-repeat'
+
+
+"for startuptime
+Plug 'dstein64/vim-startuptime', { 'on': 'StartupTime' }
+
+Plug 'justinmk/vim-dirvish'     " Minimal file explorer
+
+"NerdTree
+" Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+" Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+
+
+"undo tree
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+
+"start menu for vim
+Plug 'mhinz/vim-startify'
+
+
+" Personal wiki / notes
+Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
+
+"Comment/uncomment code easily with gcc, gc in visual, etc.
+Plug 'tpope/vim-commentary'
+
+ "for {, (, etc autocompletion
+"Plug 'jiangmiao/auto-pairs'
+
+Plug 'Raimondi/delimitMate'
+
+"fzf plugins
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim', { 'on': ['Files', 'Buffers', 'Rg'] }
+
+" Fuzzy file finder (CtrlP-style)
+"Plug 'ctrlpvim/ctrlp.vim'
+
+" Surroundings: change/add/remove parentheses, quotes, tags fast
+Plug 'tpope/vim-surround'
+
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+call plug#end()
+let mapleader = " "
+
+"remap enter to confirm lsp suggestion, otherwise default bahaviour
+inoremap <silent><expr> <CR> coc#pum#visible()
+      \ ? coc#pum#confirm()
+      \ : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Your gray base colors
+hi! Pmenu    ctermfg=White ctermbg=232
+hi! PmenuSel ctermfg=White ctermbg=DarkGrey
+
+" Make all coc popup pieces reuse those
+hi! link CocPum      Pmenu
+hi! link CocPumMenu  Pmenu
+hi! link CocPumSearch Pmenu
+hi! link CocFloating Pmenu     " for some floating popups
+hi! link CocMenuSel  PmenuSel
+
+" Smarter C-like indenting (good for Rust, C, etc.)
+set smartindent
+set autoindent             " copy indent from current line
+
+set tabstop=4       " how many columns a real tab character shows as
+set shiftwidth=4    " how many columns >> and auto-indent use
+set softtabstop=4   " how many spaces <Tab> inserts in Insert mode
+"set expandtab              " insert spaces instead of real tabs
+
+" Use UTF-8 everywhere
+set encoding=utf-8
+
+" Better command-line completion
+set wildmenu               " show completion options in a menu
+set wildmode=longest:full,full
+
+" Case-smart searching
+set ignorecase             " case-insensitive search by default
+set smartcase              " but become case-sensitive if pattern has capitals
+set hlsearch               " highlight search matches
+set incsearch              " show matches as you type the pattern
+
+" Visual feedback
+set showmatch              " briefly jump to matching bracket
+
+" Show current mode (INSERT, NORMAL, etc.)
+set showmode
+
+" Use system clipboard (requires +clipboard build)
+if has("clipboard")
+  set clipboard=unnamedplus
+endif
+
+" Faster update for plugins like coc
+set updatetime=300
+
+" Reduce command line messages
+"set shortmess+=c
+
+" Show diagnostics, references, etc. under K / gd / gr style mappings
+" These mimic Neovim LSP keymaps
+nmap <silent> gd <Plug>(coc-definition)       " go to definition
+nmap <silent> gy <Plug>(coc-type-definition)  " go to type
+nmap <silent> gi <Plug>(coc-implementation)   " go to implementation
+nmap <silent> gr <Plug>(coc-references)       " list references
+
+
+" Always show a single, simple statusline
+set laststatus=2
+
+" Minimal statusline:
+"  left: filename, modified flag
+"  right: line/col
+set statusline=%f\ %m%=%l:%c
+
+
+" Make statusline use normal background, simple foreground
+hi StatusLine   cterm=NONE ctermfg=White ctermbg=NONE
+hi StatusLineNC cterm=NONE ctermfg=White ctermbg=NONE
+
+" Make CtrlP search from Vim's current working directory, not project root
+let g:ctrlp_working_path_mode = 0
+
+" Ctrl-P: search from current working directory (default CtrlP)
+"nnoremap <C-p> :CtrlP<CR>
+
+" <leader>ph: search in /home/ghaith/main
+"nnoremap <C-h> :CtrlP /home/ghaith/main<CR>
+
+" <leader>pp: search in current directory (explicit .)
+"nnoremap <leader>pp :CtrlP .<CR>
+
+"tell (ctrl P) to ignore these when fuzzy finding
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.git|\.hg|\.svn|target|node_modules)$',
+  \ 'file': '\v\.(o|so|dll|exe|pyc|zip|tar|gz|rar)$',
+  \ 'link': '',
+  \ }
+
+
+"keymaps for buffer next, buffer prev, delete buffer
+nnoremap <Tab> :bnext<CR>
+nnoremap <S-Tab> :bprevious<CR>
+nnoremap X :bdelete<CR>
+
+" Ctrl-g then s: Git status
+nnoremap <C-g>s :Git<CR>
+
+" Ctrl-g then d: diff current file vs HEAD
+nnoremap <C-g>d :Gdiffsplit<CR>
+
+" Ctrl-g then b: blame
+nnoremap <C-g>b :Gblame<CR>
+
+" Save current file: Ctrl-s
+"nnoremap <C-s> :w<CR>
+
+" Save all files: Ctrl-s then a
+nnoremap <C-s> :wa<CR>
+
+" Ctrl-e: open file explorer in current directory
+"nnoremap <C-e> :Explore<CR>
+
+" Auto-format with coc on write, when server supports it
+autocmd BufWritePre * silent! call CocAction('format')
+
+" Next/previous diagnostic (error/warning) with Ctrl-d combos
+nnoremap <silent> <C-q>n <Plug>(coc-diagnostic-next)
+nnoremap <silent> <C-q>p <Plug>(coc-diagnostic-prev)
+
+" Ctrl-d then l: open coc diagnostics list
+nnoremap <silent> <C-q>l :CocList diagnostics<CR>
+"
+" Normal mode: show diagnostics for current cursor position in a float/echo
+nnoremap <silent> <C-q>i :call CocAction('diagnosticInfo')<CR>
+
+" Ctrl-o then o: show symbols (functions, structs, etc.) in current file
+nnoremap <silent> <C-f> :CocList outline<CR>
+
+" Ctrl-r then n: rename symbol under cursor (refactor rename)
+nnoremap <silent> <C-r>n <Plug>(coc-rename)
+
+"keymap for plug installations
+"nnoremap <leader>I :PlugInstall<CR>
+
+"keymap for :x or :wq
+nnoremap <C-x> :q<CR>
+
+"shift + s: deletes line and enters insert mode
+"caw: delete word before or around cursor then back to insert mode
+
+
+" Use Markdown-style files for vimwiki
+let g:vimwiki_list = [{
+      \ 'path': '~/vimwiki',
+      \ 'syntax': 'markdown',
+      \ 'ext': '.md'
+      \ }]
+
+" Match background so the bar blends in
+highlight SignColumn guibg=NONE ctermbg=NONE
+
+colorscheme retrobox
+
+"for fzf
+nnoremap <C-p> :Files<CR>
+nnoremap <C-b> :Buffers<CR>
+nnoremap <leader>/ :Rg<CR>      
+
+nnoremap <C-e> :Dirvish<CR>
+
+"nnoremap <leader>e :NERDTreeToggle<CR>
+"nnoremap <leader>f :NERDTreeFind<CR>
+" Auto-close if only NERDTree left
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+let g:airline_theme = 'simple'  " or 'deus', 'bubblegum', 'wombat'
+let g:airline#extensions#tabline#enabled = 1  " Show buffers in tabline
+let g:airline_powerline_fonts = 1  " If using powerline fonts
+
+"undo tree
+nnoremap <leader>u :UndotreeToggle<CR>
+
+
+" Navigate windows with Ctrl+hjkl
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Apply codeAction to the current line
+nmap <C-a>  <Plug>(coc-codeaction)
+nmap <C-a>c <Plug>(coc-codeaction-cursor)
+
+" Apply AutoFix for problem on the current line
+nmap <C-q>f  <Plug>(coc-fix-current)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+set backspace=indent,eol,start  " Make backspace work like normal
+
+"allows unsaved buffers
+set hidden
+
+"persistent undo
+set undofile
+set undodir=~/.vim/undo
+
+set nobackup           " Don't create backup files
+set noswapfile         " Don't create swap files
+
+"open GitHub
+nnoremap <C-g>o :GBrowse<CR>
+
+" Edit vimrc
+nnoremap <leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+
+"clear search highlights
+nnoremap <leader><space> :nohlsearch<CR>
+
+let g:delimitMate_matchpairs = "(:),[:],{:},<:>"
+
+
+" Reload file if changed externally
+set autoread
+autocmd FocusGained,BufEnter * checktime
+
+" Perfect mapping - Ctrl-y for yank history
+nnoremap <silent> <C-y> :<C-u>CocList -A --normal yank<CR>
+
+" In insert mode too (if you want)
+inoremap <silent> <C-y> <Esc>:<C-u>CocList -A --normal yank<CR>
+
+" File detection
+filetype plugin indent on
+syntax enable
+
+" Persistent yank/delete history
+if has('persistent_undo')
+    set undofile
+    set undodir=~/.vim/undo
+    if !isdirectory(&undodir)
+        call mkdir(&undodir, 'p')
+    endif
+endif

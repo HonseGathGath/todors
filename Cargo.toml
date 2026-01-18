@@ -1,10 +1,31 @@
 [package]
 name = "todo"
 version = "0.1.0"
-edition = "2024"
+authors = [
+  "ghaith lassoued <lassouedghaith15@gmail.com>",
+] # FIXED: authors (plural)
+description = "A command-line todo application" # ADDED: description
+license = "MIT" # ADDED: license
+edition = "2021" # FIXED: 2021, not 2024
+
+[[bin]]
+name = "todo"
+path = "src/main.rs"
 
 [dependencies]
 chrono = { version = "0.4.42", features = ["serde"] }
 rusqlite = { version = "0.32.1", features = ["bundled", "chrono"] }
 serde = { version = "1.0", features = ["derive"] }
 dirs = "5.0"
+
+[package.metadata.deb]
+maintainer = "ghaith lassoued <lassouedghaith15@gmail.com>" # Use your real email
+copyright = "Copyright 2024 Ghaith Lassoued"
+license-file = ["LICENSE-MIT"]                              # You need to create this
+extended-description = "A command-line todo application"
+section = "utils"
+priority = "optional"
+depends = "$auto"
+# conflicts = ""  # Remove empty fields
+# replaces = ""   # Remove empty fields
+assets = [["target/release/todo", "usr/bin/", "755"]]

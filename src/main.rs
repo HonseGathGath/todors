@@ -14,7 +14,7 @@ fn main() {
 
     let command: Command = Command::new(args);
     let mut app_state = AppState::load();
-    
+
     match command.op() {
         "add" => {
             if let Err(e) = app_state.handle_add(&command) {
@@ -35,7 +35,7 @@ fn main() {
                 exit(1);
             }
         }
-        "project" => {
+        "project" | "cr" => {
             if let Err(e) = app_state.handle_create_project(&command) {
                 eprintln!("error: {e}");
                 exit(1);
