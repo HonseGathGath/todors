@@ -30,7 +30,7 @@ pub fn task_from_command(
     })
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Project {
     pub name: String,
     pub id: usize,
@@ -38,7 +38,7 @@ pub struct Project {
     pub tasks: Vec<Task>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Task {
     name: String,
     priority: Priority,
@@ -52,10 +52,10 @@ pub struct Task {
 
 #[derive(Debug, Clone, Copy)]
 pub enum Priority {
-    None,
-    Low,
-    Medium,
-    High,
+    None = 0,
+    Low = 1,
+    Medium = 2,
+    High = 3,
 }
 
 impl Priority {
@@ -76,6 +76,28 @@ impl Default for Priority {
 }
 
 impl Task {
+    pub fn new(
+        id: usize,
+        project_id: usize,
+        name: String,
+        description: String,
+        priority: Priority,
+        created_at: DateTime<Utc>,
+        due_time: Option<NaiveDate>,
+        completed_at: Option<DateTime<Utc>>,
+    ) -> Self {
+        Task {
+            id,
+            project_id,
+            name,
+            description,
+            priority,
+            created_at,
+            due_time,
+            completed_at,
+        }
+    }
+
     pub fn id(&self) -> usize {
         self.id
     }
@@ -84,5 +106,20 @@ impl Task {
     }
     pub fn name(&self) -> &String {
         &self.name
+    }
+    pub fn description(&self) -> &String {
+        &self.description
+    }
+    pub fn priority(&self) -> Priority {
+        self.priority
+    }
+    pub fn created_at(&self) -> &DateTime<Utc> {
+        &self.created_at
+    }
+    pub fn due_time(&self) -> Option<NaiveDate> {
+        self.due_time
+    }
+    pub fn completed_at(&self) -> Option<DateTime<Utc>> {
+        self.completed_at
     }
 }

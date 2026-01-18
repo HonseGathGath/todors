@@ -4,4 +4,5 @@
 
 pub mod app_state;
 pub mod command;
+pub mod database;
 pub mod hierarchy;

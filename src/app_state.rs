@@ -1,7 +1,8 @@
 use std::io;
 
 use crate::{
-    command::{self, Command},
+    command::Command,
+    database::Database,
     hierarchy::{Project, Task, task_from_command},
 };
 use std::io::Write;
@@ -21,19 +22,42 @@ fn prompt(question: &str) -> io::Result<bool> {
 pub struct AppState {
     next_task_id: usize,
     projects: Vec<Project>,
+    db: Database,
 }
 
 impl AppState {
     pub fn load() -> Self {
-        let home: Project = Project {
-            name: String::from("Home"),
-            id: 0,
-            parent_id: 0,
-            tasks: Vec::new(),
-        };
+        let db = Database::new().expect("Failed to initialize database");
+        
+        let mut projects = db.load_projects().unwrap_or_else(|_| Vec::new());
+
+        let next_task_id = db.load_next_task_id().unwrap_or(0);
+
+        // If no projects exist, create and save the default Home project
+        if projects.is_empty() {
+            let home_project = Project {
+                name: String::from("Home"),
+                id: 0,
+                parent_id: 0,
+                tasks: Vec::new(),
+            };
+            let _ = db.save_projects(&[home_project.clone()]);
+            projects = vec![home_project];
+        }
+
         AppState {
-            next_task_id: 0,
-            projects: vec![home],
+            next_task_id,
+            projects,
+            db,
+        }
+    }
+
+    fn save(&self) {
+        if let Err(e) = self.db.save_projects(&self.projects) {
+            eprintln!("Failed to save projects: {}", e);
+        }
+        if let Err(e) = self.db.save_next_task_id(self.next_task_id) {
+            eprintln!("Failed to save next_task_id: {}", e);
         }
     }
 
@@ -57,6 +81,7 @@ impl AppState {
         let task = task_from_command(cmd, id, project_id).map_err(|_| "invalid command fields")?;
 
         self.add_task_to_project(project_id, task)?;
+        self.save();
         Ok(())
     }
 
@@ -86,6 +111,7 @@ impl AppState {
         };
 
         self.projects.push(project);
+        self.save();
         id
     }
     fn projects(&self) -> &Vec<Project> {
@@ -135,6 +161,7 @@ impl AppState {
                 p.tasks.retain(|t| id != t.id());
             }
         });
+        self.save();
     }
     pub fn handle_modify_task(&mut self, id: usize, command: &Command) {
         'outer: for project in self.projects.iter_mut() {
@@ -146,5 +173,6 @@ impl AppState {
                 }
             }
         }
+        self.save();
     }
 }
