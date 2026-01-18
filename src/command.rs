@@ -102,6 +102,8 @@ impl Command {
                 }
                 Flag::Other => {
                     // Try to parse as task ID if it's a number
+                    // The first numeric argument becomes the task ID (for commands like 'modify 1')
+                    // Subsequent numeric arguments are treated as strings (for task names like 'Task 2')
                     if let Ok(id) = arg.parse::<usize>() {
                         if parameters.task_id.is_none() {
                             parameters.task_id = Some(id);

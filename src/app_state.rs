@@ -308,25 +308,4 @@ impl AppState {
         self.save();
         Ok(())
     }
-    
-    pub fn handle_remove_task(&mut self, id: usize, project_id: usize) {
-        self.projects.iter_mut().for_each(|p| {
-            if p.id == project_id {
-                p.tasks.retain(|t| id != t.id());
-            }
-        });
-        self.save();
-    }
-    pub fn handle_modify_task(&mut self, id: usize, command: &Command) {
-        'outer: for project in self.projects.iter_mut() {
-            for task in project.tasks.iter_mut() {
-                if task.id() == id {
-                    let new_task = task_from_command(command, id, task.project_id());
-                    *task = new_task.ok().unwrap();
-                    break 'outer;
-                }
-            }
-        }
-        self.save();
-    }
 }
