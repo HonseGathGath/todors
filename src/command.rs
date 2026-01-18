@@ -9,6 +9,7 @@ enum Flag {
     Project,
     Description,
     Priority,
+    Force,
     Other,
 }
 
@@ -18,6 +19,7 @@ impl Flag {
             "-p" | "--project" => Flag::Project,
             "-d" | "--description" => Flag::Description,
             "--priority" => Flag::Priority,
+            "-f" | "--force" => Flag::Force,
             _ => Flag::Other,
         }
     }
@@ -29,6 +31,8 @@ pub struct Parameters {
     project: Option<String>,
     description: Option<String>,
     priority: Option<Priority>,
+    task_id: Option<usize>,
+    force: bool,
 }
 #[derive(Debug)]
 pub struct Command {
@@ -44,12 +48,22 @@ impl Parameters {
         (&self.project, &self.description, &self.priority)
     }
 
+    pub fn task_id(&self) -> Option<usize> {
+        self.task_id
+    }
+
+    pub fn force(&self) -> bool {
+        self.force
+    }
+
     fn new() -> Self {
         Parameters {
             tasks: Vec::new(),
             project: None,
             description: None,
             priority: None,
+            task_id: None,
+            force: false,
         }
     }
 }
@@ -83,8 +97,20 @@ impl Command {
                         parameters.description = Some(value);
                     }
                 }
+                Flag::Force => {
+                    parameters.force = true;
+                }
                 Flag::Other => {
-                    parameters.tasks.push(arg);
+                    // Try to parse as task ID if it's a number
+                    if let Ok(id) = arg.parse::<usize>() {
+                        if parameters.task_id.is_none() {
+                            parameters.task_id = Some(id);
+                        } else {
+                            parameters.tasks.push(arg);
+                        }
+                    } else {
+                        parameters.tasks.push(arg);
+                    }
                 }
             }
         }
