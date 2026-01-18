@@ -19,8 +19,8 @@ pub fn task_from_command(
     let (_, description, priority) = command.parameters().fields();
 
     Ok(Task {
-        id: id,
-        project_id: project_id,
+        id,
+        project_id,
         name: name?,
         description: description.clone().unwrap_or_default(),
         priority: priority.clone().unwrap_or_default(),
@@ -121,5 +121,9 @@ impl Task {
     }
     pub fn completed_at(&self) -> Option<DateTime<Utc>> {
         self.completed_at
+    }
+
+    pub fn mark_complete(&mut self) {
+        self.completed_at = Some(chrono::Utc::now());
     }
 }
